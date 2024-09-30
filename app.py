@@ -38,7 +38,7 @@ st.image("./Data/assets/logo.png", width=200)
 st.title("Spin the Wheel - Transaction-Based Rewards")
 
 # Input for transaction amount
-transaction_amount_input = st.number_input("Enter the transaction amount (yen)", min_value=1000, step=100.0)
+transaction_amount_input = st.number_input("Enter the transaction amount (yen)", min_value=1000.0, step=100.0)
 
 if transaction_amount_input < 1000:
     st.warning("Please enter an amount equal to or greater than 1000 yen to qualify for the reward.")
