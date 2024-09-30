@@ -13,10 +13,10 @@ def calculate_reward_probability(transaction_amount):
     dynamic_probabilities = base_probabilities.copy()
 
     if transaction_amount >= 1000:
-        scale_factor = transaction_amount / 1000  # Example scaling factor
-        dynamic_probabilities[5] *= (1 / scale_factor)  # Decrease for lower reward
-        dynamic_probabilities[100] *= scale_factor       # Increase for mid reward
-        dynamic_probabilities[500] *= (scale_factor ** 2) # Increase more for highest reward
+        scale_factor = transaction_amount / 1000  
+        dynamic_probabilities[5] *= (1 / scale_factor) 
+        dynamic_probabilities[100] *= scale_factor      
+        dynamic_probabilities[500] *= (scale_factor ** 2)
 
     # Normalize probabilities
     total_prob = sum(dynamic_probabilities.values())
@@ -60,7 +60,7 @@ if transaction_amount_str:
             st.write("Here are the reward probabilities based on your transaction amount:")
             probabilities = calculate_reward_probability(transaction_amount)
             for reward, prob in probabilities.items():
-                st.write(f"  Reward {reward} yen: {prob:.2f} probability")
+                st.warning(f"  Reward {reward} yen: {prob:.2f} probability")
     
     except ValueError:
         st.error("Please enter a valid number.")
