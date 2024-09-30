@@ -33,26 +33,36 @@ def get_reward(transaction_amount):
 
     return chosen_reward, probabilities[chosen_reward]
 
-
+# Display the app
 st.image("./Data/assets/logo.png", width=200)  
 st.title("Spin the Wheel - Transaction-Based Rewards")
 
-# Input for transaction amount
-transaction_amount_input = st.number_input("Enter the transaction amount (yen)", min_value=1000.0, step=100.0)
+# Using st.text_input to allow for an initially empty input
+transaction_amount_str = st.text_input("Enter the transaction amount (yen)", "")
 
-if transaction_amount_input < 1000:
-    st.warning("Please enter an amount equal to or greater than 1000 yen to qualify for the reward.")
+# Checking if the input is valid and greater than 1000
+if transaction_amount_str:
+    try:
+        # Convert to float
+        transaction_amount = float(transaction_amount_str)
+        
+        if transaction_amount < 1000:
+            st.warning("Please enter an amount equal to or greater than 1000 yen to qualify for the reward.")
+        else:
+            # Get reward based on transaction amount
+            reward, probability = get_reward(transaction_amount)
+
+            # Display the reward and probability
+            st.success(f"🎉 For a transaction amount of {transaction_amount} yen, you won {reward} yen!")
+            st.write(f"Probability of receiving this reward: {probability:.2f}")
+
+            # Display reward probabilities for reference
+            st.write("Here are the reward probabilities based on your transaction amount:")
+            probabilities = calculate_reward_probability(transaction_amount)
+            for reward, prob in probabilities.items():
+                st.write(f"  Reward {reward} yen: {prob:.2f} probability")
+    
+    except ValueError:
+        st.error("Please enter a valid number.")
 else:
-    # Get reward based on transaction amount
-    reward, probability = get_reward(transaction_amount_input)
-
-    # Display the reward and probability
-    st.success(f"🎉 For a transaction amount of {transaction_amount_input} yen, you won {reward} yen!")
-    st.write(f"Probability of receiving this reward: {probability:.2f}")
-
-    # Display reward probabilities for reference
-    st.write("Here are the reward probabilities based on your transaction amount:")
-    probabilities = calculate_reward_probability(transaction_amount_input)
-    for reward, prob in probabilities.items():
-        st.write(f"  Reward {reward} yen: {prob:.2f} probability")
-
+    st.info("Please enter a transaction amount to start.")
